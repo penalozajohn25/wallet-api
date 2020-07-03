@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<definitions name="webservice"
+    targetNamespace="urn:webservice"
+     xmlns:tns="urn:webservice"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns="http://schemas.xmlsoap.org/wsdl/">
+ 
+ 
+ <!-- add client -->
+ <message name="add_clientRequest">
+<part name="document" element="xsd:string"/>
+<part name="name" element="xsd:string"/>
+<part name="email" element="xsd:string"/>
+<part name="phone" element="xsd:string"/>
+</message>
+
+  <message name="add_clientResponse">
+<part name="return" element="xsd:string"/>
+</message>
+ 
+  <!-- Get_voucher-->
+  
+  <message name="get_voucherRequest">
+<part name="api" element="xsd:string"/>
+<part name="codigo" element="xsd:string"/>
+</message>
+
+<message name="get_voucherResponse">
+<part name="return" element="xsd:string"/>
+</message>
+ 
+
+ <!-- puerto -->
+ <portType name="webservicePortType">
+<operation name="add_client">
+<input message="tns:add_clientRequest"/>
+<output message="tns:add_clientResponse"/>
+</operation>
+
+<operation name="get_voucher">
+<input message="tns:get_voucherRequest"/>
+<output message="tns:get_voucherResponse"/>
+</operation>
+
+
+
+</portType>
+ 
+  <binding name="webserviceBinding" type="tns:webservicePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="add_client">
+        <soap:operation soapAction="urn:webservice#add_client"/>
+        <input>
+          <soap:body use="encoded" namespace="urn:webservice"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        </input>
+        <output>
+          <soap:body use="encoded" namespace="urn:webservice"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        </output>
+    </operation>
+	
+	<operation name="get_voucher">
+        <soap:operation soapAction="urn:webservice#get_voucher"/>
+        <input>
+          <soap:body use="encoded" namespace="urn:webservice"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        </input>
+        <output>
+          <soap:body use="encoded" namespace="urn:webservice"
+                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        </output>
+    </operation>
+	
+
+
+  </binding>
+  
+  
+ 
+  <service name="webserviceService">
+    <port name="webservicePortType" binding="webserviceBinding">
+      <soap:address location="http://127.0.0.1:8000/wsdl" />
+    </port>
+  </service>
+</definitions>
