@@ -15,13 +15,9 @@ class AddWalletsTable extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_client')->unsigned();
             $table->integer('document_client');
             $table->float('balance', 8, 2);
             $table->timestamps();
-
-            $table->foreign('id_client')->references('id')->on('clients')->onDelete('cascade');
-
         });
     }
 

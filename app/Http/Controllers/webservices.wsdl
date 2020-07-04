@@ -83,7 +83,7 @@
  
   <service name="webserviceService">
     <port name="webservicePortType" binding="webserviceBinding">
-      <soap:address location="http://127.0.0.1:8000/wsdl" />
+      <soap:address location="http://127.0.0.1:8000/wsdl/walletController.php" />
     </port>
   </service>
 </definitions>

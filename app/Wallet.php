@@ -8,7 +8,7 @@ class Wallet extends Model
 {
     //
     protected $table    = "wallets";
-    protected $fillable = ['id_client', 'document_client', 'balance'];
+    protected $fillable = ['document_client', 'balance'];
 
     function client(){
         return $this->hasOne('App\Client');

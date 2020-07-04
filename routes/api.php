@@ -19,4 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //wallet
 Route::post('wallet/client', 'walletController@addClients')->name('addClients');
+Route::post('wallet/addWallet', 'walletController@addWallet')->name('addWallet');
+Route::put('wallet/recharge', 'walletController@rechargeWallet')->name('rechargeWallet');
 
