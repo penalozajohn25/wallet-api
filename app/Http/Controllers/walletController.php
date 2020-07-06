@@ -134,19 +134,22 @@ class walletController extends Controller
         $id_sesion = $this->generarCodigo(6);
 
         //die($client->email);
-        
+        $data = array('id_sesion'=>$id_sesion, 'token'=>$token);
         $subject = "confirmación de la compra";
         $for = $client->email;
         $message = "Para confirmar su pago ingrese la siguiente información id_sesion:".$id_sesion." token:".$token;
-
+/*
         Mail::send('email',$request->all(), function($msj) use($subject,$for){
             $msj->from("wallet@gmail.com","Payments");
             $msj->subject($subject);
             $msj->to($for);
         });
-        
-
-
+    */   
+        Mail::send('mail', $data, function($message) {
+            $message->to('johnmanuelpenaloza@gmail.com', 'wallet')->subject
+               ('Confirmacion de pagos');
+            $message->from('wallet@gmail.com','wallet');
+         });
    /*
         $from = "wallet@gmail.com";
         $to = "johnmanuelpenaloza@gmail.com";
@@ -155,7 +158,7 @@ class walletController extends Controller
         $headers = "From:" . $from;
         $send = mail($to, $subject, $message, $headers);
         echo "The email message was sent. ". $send." ".$client->email;
-
+ */
         $wallet = Payment::create([
             'whallet_id' => $wallet->id,
             'token' => $token,
@@ -164,7 +167,7 @@ class walletController extends Controller
         ]);
 
         return response()->json(['menssage' => 'Payment created successfully', 'status' => '200'], 200);
- */
+
        // die($token." ". $id_sesion);
     }
 
