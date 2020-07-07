@@ -22,4 +22,5 @@ Route::post('wallet/client', 'walletController@addClients')->name('addClients');
 Route::post('wallet/addWallet', 'walletController@addWallet')->name('addWallet');
 Route::put('wallet/recharge', 'walletController@rechargeWallet')->name('rechargeWallet');
 Route::post('wallet/payments', 'walletController@paymentsWallet')->name('paymentsWallet');
+Route::put('wallet/confirm', 'walletController@confirmPayments')->name('confirmPayments');
 

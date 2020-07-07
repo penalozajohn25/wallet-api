@@ -138,27 +138,12 @@ class walletController extends Controller
         $subject = "confirmación de la compra";
         $for = $client->email;
         $message = "Para confirmar su pago ingrese la siguiente información id_sesion:".$id_sesion." token:".$token;
-/*
-        Mail::send('email',$request->all(), function($msj) use($subject,$for){
+        Mail::send('mail',$data, function($msj) use($subject,$for){
             $msj->from("wallet@gmail.com","Payments");
             $msj->subject($subject);
             $msj->to($for);
         });
-    */   
-        Mail::send('mail', $data, function($message) {
-            $message->to('johnmanuelpenaloza@gmail.com', 'wallet')->subject
-               ('Confirmacion de pagos');
-            $message->from('wallet@gmail.com','wallet');
-         });
-   /*
-        $from = "wallet@gmail.com";
-        $to = "johnmanuelpenaloza@gmail.com";
-        $subject = "confirmación de la compra";
-        $message = "Para confirmar su pago ingrese la siguiente información id_sesion";
-        $headers = "From:" . $from;
-        $send = mail($to, $subject, $message, $headers);
-        echo "The email message was sent. ". $send." ".$client->email;
- */
+
         $wallet = Payment::create([
             'whallet_id' => $wallet->id,
             'token' => $token,
@@ -177,5 +162,32 @@ class walletController extends Controller
         $max = strlen($pattern)-1;
         for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
         return $key;
+    }
+
+    public function confirmPayments(Request $request) {
+        $id_sesion = $request->id_sesion;
+        $token = $request->token;
+
+        if (!$id_sesion) {
+            return response()->json(['menssage' => 'id_sesion is required', 'status' => '500'], 500);
+        }
+
+        if (!$token) {
+            return response()->json(['menssage' => 'token is required', 'status' => '500'], 500);
+        }
+
+        $payment = Payment::where('id_sesion', '=', $id_sesion)
+            ->where('token', '=', $token)
+            ->first();
+        $n = count($payment);
+        if($n > 0){
+            $payment->update([
+                'status' => 2,
+            ]);
+            return response()->json(['menssage' => 'Payment confirmed successfully', 'status' => '200'], 200);
+
+        } else {
+            return response()->json(['menssage' => 'id_sesion or token incorrect', 'status' => '500'], 500);
+        }
     }
 }
