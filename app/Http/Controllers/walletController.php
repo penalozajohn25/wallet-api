@@ -190,4 +190,21 @@ class walletController extends Controller
             return response()->json(['menssage' => 'id_sesion or token incorrect', 'status' => '500'], 500);
         }
     }
+
+    public function balanceWallet($document){
+        //die($document);
+        if (!$document) {
+            return response()->json(['menssage' => 'document is required', 'status' => '500'], 500);
+        }
+        //$wallet = $this->getWallet($document);
+        $wallet = Wallet::select('balance')
+            ->from('wallets')
+            ->where('document_client', '=', $document)->get();
+        $n = count($wallet);
+        if ($n > 0) {
+            return $wallet;
+        } else {
+            return response()->json(['menssage' => 'wallet not found', 'status' => '500'], 500);
+        }
+    }
 }
